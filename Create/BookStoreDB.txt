@@ -105,5 +105,6 @@ CREATE TABLE Writes (
 );
 
 
+
 COMMIT TRANSACTION;
 PRAGMA foreign_keys = on;
