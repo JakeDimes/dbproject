@@ -1,0 +1,38 @@
+3)
+
+a)
+
+SELECT E.Fname,
+       E.Lname
+  FROM EMPLOYEE AS E,
+       PURCHASE AS P,
+       SELLS AS S
+ WHERE P.Date_Time BETWEEN '10/25/2022 00:00:00' AND '10/25/2022 24:00:00' AND 
+       P.Order_ID = S.Ord_ID AND 
+       S.Emp_ID = E.Employee_ID;
+
+
+b)
+
+SELECT count(W.B_ISBN) 
+  FROM BOOK AS B,
+       AUTHOR AS A,
+       WRITES AS W
+ WHERE A.Lname = 'Pratchett' AND 
+       A.Author_ID = W.Auth_ID AND 
+       B.ISBN = W.B_ISBN;
+
+
+c) 
+
+SELECT AVG(Work_Hours) 
+  FROM (
+           SELECT E.Work_Hours
+             FROM EMPLOYEE AS E,
+                  PURCHASE AS P,
+                  SELLS AS S
+            WHERE E.Employee_ID = S.Emp_ID AND 
+                  S.Ord_ID = P.Order_ID
+            GROUP BY s.emp_id
+           HAVING Count(S.Ord_ID) > 1
+       );

@@ -1,0 +1,191 @@
+Part A:
+
+SELECT		C.Fname, C.Lname, SUM(B.price * CO.quantity)
+FROM		CUSTOMER AS C, PURCHASE AS P, CONTAINS AS CO, BOOK AS B
+WHERE		C.Email = P.Cust_Email
+		AND P.Order_ID = CO.Ord_ID
+		AND CO.B_ISBN = B.ISBN
+GROUP BY C.Email;
+
+
+Part B:
+
+
+SELECT Cust.Fname,
+       Cust.Lname,
+       Cust.Email
+  FROM (
+           SELECT Avg(tot_spent) AS avg_tot_spent
+             FROM (
+                      SELECT C.Fname,
+                             C.Lname,
+                             C.Email,
+                             Sum(B.Price * CO.quantity) AS tot_spent
+                        FROM Customer AS C,
+                             Purchase AS P,
+                             Contains AS CO,
+                             Book AS B
+                       WHERE C.Email = P.Cust_Email AND 
+                             P.Order_ID = CO.Ord_ID AND 
+                             CO.B_ISBN = B.ISBN
+                       GROUP BY C.Email
+                  )
+       )
+       AS avg_cust,
+       (
+           SELECT C.Fname,
+                  C.Lname,
+                  C.Email,
+                  Sum(B.Price * CO.quantity) AS tot_spent
+             FROM Customer AS C,
+                  Purchase AS P,
+                  Contains AS CO,
+                  Book AS B
+            WHERE C.Email = P.Cust_Email AND 
+                  P.Order_ID = CO.Ord_ID AND 
+                  CO.B_ISBN = B.ISBN
+            GROUP BY C.Email
+       )
+       AS cust
+ WHERE cust.tot_spent > avg_cust.avg_tot_spent;
+
+
+Part C:
+
+
+SELECT		B.Title, SUM(C.Quantity)
+FROM		PURCHASE AS P, CONTAINS AS C, BOOK AS B
+WHERE		P.Order_ID = C.Ord_ID
+		AND B.ISBN = C.B_ISBN
+GROUP BY	B.ISBN
+ORDER BY	SUM(C.Quantity) DESC; 
+
+Part D:
+
+SELECT B.ISBN,
+       SUM(C.Quantity) * B.Price AS tot_rev
+  FROM PURCHASE AS P,
+       CONTAINS AS C,
+       BOOK AS B
+ WHERE P.Order_ID = C.Ord_ID AND 
+       B.ISBN = C.B_ISBN
+ GROUP BY B.ISBN
+ ORDER BY tot_rev DESC;
+
+
+Part E:
+
+
+SELECT A.Fname, A.Lname, max(num_sold)
+FROM 
+        (SELECT A.Fname, A.Lname, A.author_id, sum(CO.quantity) AS num_sold
+        FROM Author AS A, Writes AS W, Book AS B, Contains AS CO
+        WHERE A.author_id = W.auth_id
+        AND W.B_ISBN = B.ISBN
+        AND CO.B_ISBN = B.ISBN
+        GROUP BY A.author_id);
+
+
+Part F: 
+
+
+SELECT A.Fname, A.Lname, max(tot_rev)
+FROM
+        (SELECT A.Fname, A.Lname, A.author_id, SUM((CO.quantity * B.Price)) AS tot_rev
+        FROM Author AS A, Writes AS W, Book AS B, Contains AS CO
+        WHERE A.author_id = W.auth_id
+        AND W.B_ISBN = B.ISBN 
+        AND CO.B_ISBN = B.ISBN
+        GROUP BY A.author_ID);
+
+
+Part G: 
+
+
+SELECT C.Fname,
+       C.Lname,
+       C.Email
+  FROM Customer AS C,
+       Purchase AS P,
+       Contains AS CO,
+       Book AS B,
+       Writes AS W,
+       Author AS A
+ WHERE C.Email = P.cust_email AND 
+       P.Order_ID = CO.Ord_ID AND 
+       CO.B_ISBN = B.ISBN AND 
+       B.ISBN = W.B_ISBN AND 
+       W.Auth_ID = A.Author_ID AND 
+       W.auth_id IN (
+           SELECT author_id
+             FROM (
+                      SELECT Author_ID,
+                             Fname,
+                             Lname,
+                             max(tot_rev) 
+                        FROM (
+                                 SELECT A.Fname,
+                                        A.Lname,
+                                        A.author_id,
+                                        SUM( (CO.quantity * B.Price) ) AS tot_rev
+                                   FROM Author AS A,
+                                        Writes AS W,
+                                        Book AS B,
+                                        Contains AS CO
+                                  WHERE A.author_id = W.auth_id AND 
+                                        W.B_ISBN = B.ISBN AND 
+                                        CO.B_ISBN = B.ISBN
+                                  GROUP BY A.author_ID
+                             )
+                  )
+       );
+
+
+Part H: 
+
+
+SELECT A.Fname, A.Lname, A.Author_ID
+FROM Author AS A, Writes AS W, Book AS B, Customer AS C, Purchase AS P, Contains AS CO
+WHERE C.Email = P.cust_email AND 
+       P.Order_ID = CO.Ord_ID AND 
+       CO.B_ISBN = B.ISBN AND 
+       B.ISBN = W.B_ISBN AND 
+       W.Auth_ID = A.Author_ID AND
+       C.Email IN (
+
+SELECT Cust.Email
+  FROM (
+           SELECT Avg(tot_spent) AS avg_tot_spent
+             FROM (
+                      SELECT C.Fname,
+                             C.Lname,
+                             C.Email,
+                             Sum(B.Price * CO.quantity) AS tot_spent
+                        FROM Customer AS C,
+                             Purchase AS P,
+                             Contains AS CO,
+                             Book AS B
+                       WHERE C.Email = P.Cust_Email AND 
+                             P.Order_ID = CO.Ord_ID AND 
+                             CO.B_ISBN = B.ISBN
+                       GROUP BY C.Email
+                  )
+       )
+       AS avg_cust,
+       (
+           SELECT C.Fname,
+                  C.Lname,
+                  C.Email,
+                  Sum(B.Price * CO.quantity) AS tot_spent
+             FROM Customer AS C,
+                  Purchase AS P,
+                  Contains AS CO,
+                  Book AS B
+            WHERE C.Email = P.Cust_Email AND 
+                  P.Order_ID = CO.Ord_ID AND 
+                  CO.B_ISBN = B.ISBN
+            GROUP BY C.Email
+       )
+       AS cust
+ WHERE cust.tot_spent > avg_cust.avg_tot_spent);
+
