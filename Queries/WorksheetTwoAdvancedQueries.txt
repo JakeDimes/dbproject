@@ -1,59 +1,47 @@
-Part A:
+-- This is Query 10 on the manual
 
 SELECT		C.Fname, C.Lname, SUM(B.price * CO.quantity)
 FROM		CUSTOMER AS C, PURCHASE AS P, CONTAINS AS CO, BOOK AS B
 WHERE		C.Email = P.Cust_Email
 		AND P.Order_ID = CO.Ord_ID
 		AND CO.B_ISBN = B.ISBN
-GROUP BY C.Email;
+GROUP BY 	C.Email;
 
 
-Part B:
+-- This is Query 11 on the manual
+
+SELECT 	Cust.Fname, Cust.Lname, Cust.Email
+FROM 	(
+	SELECT 	Avg(tot_spent) AS avg_tot_spent
+	FROM 	(
+		SELECT 	C.Fname, C.Lname, C.Email,
+			Sum(B.Price * CO.quantity) AS tot_spent
+		FROM 	Customer AS C, Purchase AS P, Contains AS CO,
+			Book AS B
+		WHERE 	C.Email = P.Cust_Email
+			AND P.Order_ID = CO.Ord_ID
+			AND CO.B_ISBN = B.ISBN
+ 		GROUP BY C.Email
+           	)
+	)
+	AS avg_cust,
+	(
+    	SELECT 	C.Fname, C.Lname, C.Email,
+		Sum(B.Price * CO.quantity) AS tot_spent
+	FROM 	Customer AS C, Purchase AS P, Contains AS CO,
+		Book AS B
+	WHERE 	C.Email = P.Cust_Email
+		AND P.Order_ID = CO.Ord_ID 
+		AND CO.B_ISBN = B.ISBN
+     	GROUP 	BY C.Email
+	)
+	AS cust
+WHERE 	cust.tot_spent > avg_cust.avg_tot_spent;
 
 
-SELECT Cust.Fname,
-       Cust.Lname,
-       Cust.Email
-  FROM (
-           SELECT Avg(tot_spent) AS avg_tot_spent
-             FROM (
-                      SELECT C.Fname,
-                             C.Lname,
-                             C.Email,
-                             Sum(B.Price * CO.quantity) AS tot_spent
-                        FROM Customer AS C,
-                             Purchase AS P,
-                             Contains AS CO,
-                             Book AS B
-                       WHERE C.Email = P.Cust_Email AND 
-                             P.Order_ID = CO.Ord_ID AND 
-                             CO.B_ISBN = B.ISBN
-                       GROUP BY C.Email
-                  )
-       )
-       AS avg_cust,
-       (
-           SELECT C.Fname,
-                  C.Lname,
-                  C.Email,
-                  Sum(B.Price * CO.quantity) AS tot_spent
-             FROM Customer AS C,
-                  Purchase AS P,
-                  Contains AS CO,
-                  Book AS B
-            WHERE C.Email = P.Cust_Email AND 
-                  P.Order_ID = CO.Ord_ID AND 
-                  CO.B_ISBN = B.ISBN
-            GROUP BY C.Email
-       )
-       AS cust
- WHERE cust.tot_spent > avg_cust.avg_tot_spent;
+-- This is Query 12 on the manual
 
-
-Part C:
-
-
-SELECT		B.Title, SUM(C.Quantity)
+SELECT 		B.Title, SUM(C.Quantity)
 FROM		PURCHASE AS P, CONTAINS AS C, BOOK AS B
 WHERE		P.Order_ID = C.Ord_ID
 		AND B.ISBN = C.B_ISBN
@@ -62,15 +50,12 @@ ORDER BY	SUM(C.Quantity) DESC;
 
 Part D:
 
-SELECT B.ISBN,
-       SUM(C.Quantity) * B.Price AS tot_rev
-  FROM PURCHASE AS P,
-       CONTAINS AS C,
-       BOOK AS B
- WHERE P.Order_ID = C.Ord_ID AND 
-       B.ISBN = C.B_ISBN
- GROUP BY B.ISBN
- ORDER BY tot_rev DESC;
+SELECT 		B.ISBN, SUM(C.Quantity) * B.Price AS tot_rev
+FROM 		PURCHASE AS P, CONTAINS AS C, BOOK AS B
+WHERE 		P.Order_ID = C.Ord_ID
+		AND B.ISBN = C.B_ISBN
+GROUP BY 	B.ISBN
+ORDER BY 	tot_rev DESC;
 
 
 Part E:
