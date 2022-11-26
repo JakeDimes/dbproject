@@ -1,4 +1,4 @@
-Part A
+-- This is [Query 1] from the manual.
 
 SELECT		B.Title
 FROM		AUTHOR AS A, WRITES AS W, BOOK AS B
@@ -7,7 +7,7 @@ WHERE		A.Author_ID = W.Auth_ID
 		AND A.Lname = 'Pratchett'
 		AND B.Price < 10;
 
-Part B
+-- This is [Query 2] from the manual.
 
 SELECT		B.Title, P.Date_time
 FROM		CUSTOMER AS C, BOOK AS B, CONTAINS AS CO, PURCHASE AS P
@@ -16,13 +16,13 @@ WHERE		C.Email = P.Cust_Email
 		AND CO.B_ISBN = B.ISBN
 		AND C.Email = 'Ashley.Clark@gmail.com';
 
-Part C
+-- This is [Query 3] from the manual.
 
 SELECT		Title, ISBN
 FROM		BOOK
 WHERE		Inventory_Count < 5;
 
-Part D
+-- This is [Query 4] from the manual.
 
 SELECT	C.Fname, C.Lname, C.Email, B.Title
 FROM	BOOK AS B, CUSTOMER AS C, PURCHASE AS P, CONTAINS AS CO, WRites AS W, AUTHOR AS A
@@ -33,24 +33,23 @@ WHERE	C.Email = P.Cust_Email
 	AND B.ISBN = W.B_ISBN
 	AND A.Lname = 'Pratchett';
 
-Part E
+-- This is [Query 5] from the manual.
 
 SELECT	C.Email, SUM(Con.quantity)
-FROM		CUSTOMER AS C, PURCHASE AS P, Contains as CON
+FROM 	CUSTOMER AS C, PURCHASE AS P, Contains as CON
 WHERE	C.Email = P.Cust_Email
 	AND p.order_id = con.ord_id
 	AND C.Email = 'Ashley.Clark@gmail.com';
 
-Part F
+-- This is [Query 6] from the manual.
 
-SELECT Email, Max(tot_purchased) 
-FROM (SELECT C.Email, sum(CO.quantity) AS tot_purchased
-      FROM CUSTOMER AS C,
-           PURCHASE AS P,
-           CONTAINS AS CO
-      WHERE C.Email = P.Cust_Email AND 
-            P.Order_ID = CO.Ord_ID
-      GROUP BY C.Email
+SELECT 	Email, Max(tot_purchased) 
+FROM 	(
+	SELECT C.Email, sum(CO.quantity) AS tot_purchased
+      	FROM CUSTOMER AS C, PURCHASE AS P, CONTAINS AS CO
+      	WHERE C.Email = P.Cust_Email 
+	AND P.Order_ID = CO.Ord_ID
+      	GROUP BY C.Email
 );
 
 
