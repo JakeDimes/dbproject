@@ -59,7 +59,7 @@ ORDER BY 	tot_rev DESC;
 
 -- This is Query 14 on the manual
 
-SELECT A.Fname, A.Lname, max(num_sold)
+SELECT Fname, Lname, num_sold 
 FROM 
         (
 	SELECT 		A.Fname, A.Lname, A.author_id, sum(CO.quantity) AS num_sold
@@ -72,7 +72,7 @@ FROM
 
 -- This is Query 15 on the manual
 
-SELECT A.Fname, A.Lname, max(tot_rev)
+SELECT Fname, Lname, max(tot_rev)
 FROM
 	(
 	SELECT 		A.Fname, A.Lname, A.author_id, SUM((CO.quantity * B.Price)) AS tot_rev
