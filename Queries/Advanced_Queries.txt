@@ -1,4 +1,5 @@
 -- This is Query 10 on the manual
+-- Part A on worksheet 3
 
 SELECT		C.Fname, C.Lname, SUM(B.price * CO.quantity)
 FROM		CUSTOMER AS C, PURCHASE AS P, CONTAINS AS CO, BOOK AS B
@@ -9,6 +10,7 @@ GROUP BY 	C.Email;
 
 
 -- This is Query 11 on the manual
+-- Part B on worksheet 3
 
 SELECT 	Cust.Fname, Cust.Lname, Cust.Email
 FROM 	(
@@ -40,6 +42,7 @@ WHERE 	cust.tot_spent > avg_cust.avg_tot_spent;
 
 
 -- This is Query 12 on the manual
+-- Part C on worksheet 3
 
 SELECT 		B.Title, SUM(C.Quantity)
 FROM		PURCHASE AS P, CONTAINS AS C, BOOK AS B
@@ -49,6 +52,7 @@ GROUP BY	B.ISBN
 ORDER BY	SUM(C.Quantity) DESC; 
 
 -- This is Query 13 on the manual
+-- Part D on worksheet 3
 
 SELECT 		B.ISBN, SUM(C.Quantity) * B.Price AS tot_rev
 FROM 		PURCHASE AS P, CONTAINS AS C, BOOK AS B
@@ -58,6 +62,7 @@ GROUP BY 	B.ISBN
 ORDER BY 	tot_rev DESC;
 
 -- This is Query 14 on the manual
+-- Part E on worksheet 3
 
 SELECT Fname, Lname, num_sold 
 FROM 
@@ -71,6 +76,7 @@ FROM
 	);
 
 -- This is Query 15 on the manual
+-- Part F on worksheet 3
 
 SELECT Fname, Lname, max(tot_rev)
 FROM
@@ -84,6 +90,7 @@ FROM
 	);
 
 -- This is Query 16 on the manual
+-- Part G on worksheet 3
 
 SELECT 	C.Fname, C.Lname, C.Email
 FROM 	Customer AS C, Purchase AS P, Contains AS CO,
@@ -114,6 +121,7 @@ WHERE 	C.Email = P.cust_email
 	);
 
 -- This is Query 17 on the manual
+-- Part H on worksheet 3
 
 SELECT 	A.Fname, A.Lname, A.Author_ID
 FROM 	Author AS A, Writes AS W, Book AS B, Customer AS C, Purchase AS P, Contains AS CO

@@ -1,4 +1,5 @@
 -- This is [Query 7] from the manual.
+-- Part 1 on worksheet 3
 
 SELECT 	E.Fname, E.Lname
 FROM 	EMPLOYEE AS E, PURCHASE AS P, SELLS AS S
@@ -7,6 +8,7 @@ WHERE 	P.Date_Time BETWEEN '10/25/2022 00:00:00' AND '10/25/2022 24:00:00'
 	AND S.Emp_ID = E.Employee_ID;
 
 -- This is [Query 8] from the manual.
+-- Part 2 on worksheet 3
 
 SELECT 	count(W.B_ISBN) 
 FROM 	BOOK AS B, AUTHOR AS A, WRITES AS W
@@ -15,6 +17,7 @@ WHERE 	A.Lname = 'Pratchett'
 	AND B.ISBN = W.B_ISBN;
 
 -- This is [Query 9] from the manual.
+-- Part 3 on worksheet 3
 
 SELECT 	AVG(Work_Hours) 
 FROM 	(
