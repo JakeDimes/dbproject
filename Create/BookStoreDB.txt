@@ -119,6 +119,15 @@ GROUP BY B.ISBN
 Group By ID
 Having MAX(SumQ);
 
+-- This view finds the number of books in stock per Publisher
+
+CREATE VIEW Publisher_Stock AS
+SELECT 		P.Web_Domain, P.Publisher_name,  SUM(B.Inventory_Count) AS Total_Books
+FROM 		Publisher AS P, Book AS B
+WHERE 		B.Pub_Domain = P.Web_Domain
+GROUP BY 	P.Web_Domain;
+
 
 COMMIT TRANSACTION;
 PRAGMA foreign_keys = on;
+
