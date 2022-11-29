@@ -104,6 +104,11 @@ CREATE TABLE Writes (
     )
 );
 
+-- A view that shows a list of authors and their most popular book
+
+-- A view that shows the number of books each employee has sold
+
+-- A view that shows how many books have been sold for this month
 
 
 COMMIT TRANSACTION;
