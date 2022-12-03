@@ -44,6 +44,7 @@ CREATE TABLE Contains (
 -- Table: Customer
 CREATE TABLE Customer (
     FName        VARCHAR (15) NOT NULL,
+    Mname 	 VARCHAR (15) NOT NULL,
     LName        VARCHAR (15) NOT NULL,
     Email        VARCHAR (30) NOT NULL
                               PRIMARY KEY,
