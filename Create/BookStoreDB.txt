@@ -35,9 +35,12 @@ CREATE TABLE Contains (
     B_ISBN   VARCHAR (30) REFERENCES Book (ISBN) 
                           NOT NULL,
     Ord_ID   INTEGER      REFERENCES Purchase (Order_id) 
-                          NOT NULL
-                          PRIMARY KEY,
-    Quantity INTEGER      NOT NULL
+                          NOT NULL,
+    Quantity INTEGER      NOT NULL,
+    PRIMARY KEY (
+        B_ISBN,
+        Ord_ID
+    )
 );
 
 
