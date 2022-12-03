@@ -1,4 +1,4 @@
--- This is [Query 1] from the manual.
+-- Query: This is [Query 1] from the manual.
 -- Part A on worksheet 3
 SELECT		B.Title
 FROM		AUTHOR AS A, WRITES AS W, BOOK AS B
@@ -7,7 +7,7 @@ WHERE		A.Author_ID = W.Auth_ID
 		AND A.Lname = 'Pratchett'
 		AND B.Price < 10;
 
--- This is [Query 2] from the manual.
+-- Query: This is [Query 2] from the manual.
 -- Part B on worksheet 3
 SELECT		B.Title, P.Date_time
 FROM		CUSTOMER AS C, BOOK AS B, CONTAINS AS CO, PURCHASE AS P
@@ -16,14 +16,14 @@ WHERE		C.Email = P.Cust_Email
 		AND CO.B_ISBN = B.ISBN
 		AND C.Email = 'Ashley.Clark@gmail.com';
 
--- This is [Query 3] from the manual.
+-- Query: This is [Query 3] from the manual.
 -- Part C on worksheet 3
 
 SELECT		Title, ISBN
 FROM		BOOK
 WHERE		Inventory_Count < 5;
 
--- This is [Query 4] from the manual.
+-- Query: This is [Query 4] from the manual.
 -- Part D on worksheet 3
 
 SELECT	C.Fname, C.Lname, C.Email, B.Title
@@ -35,7 +35,7 @@ WHERE	C.Email = P.Cust_Email
 	AND B.ISBN = W.B_ISBN
 	AND A.Lname = 'Pratchett';
 
--- This is [Query 5] from the manual.
+-- Query: This is [Query 5] from the manual.
 -- Part E on worksheet 3
 
 SELECT	C.Email, SUM(Con.quantity)
@@ -44,7 +44,7 @@ WHERE	C.Email = P.Cust_Email
 	AND p.order_id = con.ord_id
 	AND C.Email = 'Ashley.Clark@gmail.com';
 
--- This is [Query 6] from the manual.
+-- Query: This is [Query 6] from the manual.
 -- Part F on worksheet 3
 
 SELECT 	Email, Max(tot_purchased) 
