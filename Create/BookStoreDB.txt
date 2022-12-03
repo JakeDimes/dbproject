@@ -74,10 +74,10 @@ CREATE TABLE Publisher (
 
 -- Table: Purchase
 CREATE TABLE Purchase (
-    Order_id   INT          NOT NULL
-                            PRIMARY KEY,
-    Cust_Email VARCHAR (30) REFERENCES Customer (Email),
-    Date_Time  DATETIME     NOT NULL
+    Order_id   		INT          NOT NULL
+                        	    PRIMARY KEY,
+    Cust_Email 		VARCHAR (30) REFERENCES Customer (Email),
+    Purchase_Time 	DATETIME     NOT NULL
 );
 
 
