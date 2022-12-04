@@ -1,6 +1,6 @@
 --
 -- File generated with SQLiteStudio v3.3.3 on Wed Oct 26 18:19:58 2022
---
+-- File Last Modified: Sat Dec 3 15:07:31 2022
 -- Text encoding used: System
 --
 PRAGMA foreign_keys = off;
@@ -21,9 +21,9 @@ CREATE TABLE Author (
 CREATE TABLE Book (
     ISBN            VARCHAR (30)   PRIMARY KEY
                                    NOT NULL,
-    Title           VARCHAR (255),
     Pub_Domain      VARCHAR (255)  NOT NULL
                                    REFERENCES Publisher (Web_Domain) ON DELETE NO ACTION,
+    Title           VARCHAR (255),
     Year            CHAR (4),
     Price           DECIMAL (4, 2),
     Category        VARCHAR (15),
@@ -35,18 +35,22 @@ CREATE TABLE Contains (
     B_ISBN   VARCHAR (30) REFERENCES Book (ISBN) 
                           NOT NULL,
     Ord_ID   INTEGER      REFERENCES Purchase (Order_id) 
-                          NOT NULL
-                          PRIMARY KEY,
-    Quantity INTEGER      NOT NULL
+                          NOT NULL,
+    Quantity INTEGER      NOT NULL,
+    PRIMARY KEY (
+        B_ISBN,
+        Ord_ID
+    )
 );
 
 
 -- Table: Customer
 CREATE TABLE Customer (
-    FName        VARCHAR (15) NOT NULL,
-    LName        VARCHAR (15) NOT NULL,
     Email        VARCHAR (30) NOT NULL
                               PRIMARY KEY,
+    Fname        VARCHAR (15) NOT NULL,
+    Mname 	 VARCHAR (15) NOT NULL,
+    Lname        VARCHAR (15) NOT NULL,
     Phone_Number CHAR (10) 
 );
 
@@ -54,28 +58,29 @@ CREATE TABLE Customer (
 CREATE TABLE Employee (
     Employee_id  INT            NOT NULL
                                 PRIMARY KEY,
+    Fname        VARCHAR (15),
+    Mname 	 VARCHAR (15),
+    Lname        VARCHAR (15),
     Salary       DECIMAL (7, 2),
     Department   VARCHAR (15)   NOT NULL,
     Work_Hours   INTEGER,
-    Phone_Number CHAR (10),
-    Fname        VARCHAR (15),
-    LName        VARCHAR (15) 
+    Phone_Number CHAR (10)
 );
 
 -- Table: Publisher
 CREATE TABLE Publisher (
-    Publisher_name VARCHAR (255),
     Web_Domain     VARCHAR (30)  PRIMARY KEY
                                  NOT NULL,
+    Publisher_name VARCHAR (255),
     Address        VARCHAR (30) 
 );
 
 -- Table: Purchase
 CREATE TABLE Purchase (
-    Date_Time  DATETIME     NOT NULL,
-    Order_id   INT          NOT NULL
-                            PRIMARY KEY,
-    Cust_Email VARCHAR (30) REFERENCES Customer (Email) 
+    Order_id   		INT          NOT NULL
+                        	    PRIMARY KEY,
+    Cust_Email 		VARCHAR (30) REFERENCES Customer (Email),
+    Purchase_Time 	DATETIME     NOT NULL
 );
 
 
@@ -127,6 +132,15 @@ WHERE		S.Emp_ID = E.Employee_id
 		AND Co.Ord_ID = P.Order_id
 GROUP BY 	E.Employee_id;
 
+-- This view finds the number of books in stock per Publisher
+
+CREATE VIEW Publisher_Stock AS
+SELECT 		P.Web_Domain, P.Publisher_name,  SUM(B.Inventory_Count) AS Total_Books
+FROM 		Publisher AS P, Book AS B
+WHERE 		B.Pub_Domain = P.Web_Domain
+GROUP BY 	P.Web_Domain;
+
 
 COMMIT TRANSACTION;
 PRAGMA foreign_keys = on;
+
