@@ -11,28 +11,28 @@ CREATE TABLE Author (
     Author_ID    INTEGER      NOT NULL
                               PRIMARY KEY,
     Fname        VARCHAR (30),
-    Mname        VARCHAR (30),
+    Mname        VARCHAR (15),
     Lname        VARCHAR (30),
-    Contact_info VARCHAR (30) 
+    Contact_info VARCHAR (60) 
 );
 
 
 -- Table: Book
 CREATE TABLE Book (
-    ISBN            VARCHAR (30)   PRIMARY KEY
+    ISBN            VARCHAR (13)   PRIMARY KEY
                                    NOT NULL,
     Pub_Domain      VARCHAR (255)  NOT NULL
                                    REFERENCES Publisher (Web_Domain) ON DELETE NO ACTION,
     Title           VARCHAR (255),
     Year            CHAR (4),
-    Price           DECIMAL (4, 2),
-    Category        VARCHAR (15),
+    Price           DECIMAL (6, 2),
+    Category        VARCHAR (30),
     Inventory_Count INTEGER        NOT NULL
 );
 
 -- Table: Contains
 CREATE TABLE Contains (
-    B_ISBN   VARCHAR (30) REFERENCES Book (ISBN) 
+    B_ISBN   VARCHAR (13) REFERENCES Book (ISBN) 
                           NOT NULL,
     Ord_ID   INTEGER      REFERENCES Purchase (Order_id) 
                           NOT NULL,
@@ -46,11 +46,11 @@ CREATE TABLE Contains (
 
 -- Table: Customer
 CREATE TABLE Customer (
-    Email        VARCHAR (30) NOT NULL
+    Email        VARCHAR (60) NOT NULL
                               PRIMARY KEY,
-    Fname        VARCHAR (15) NOT NULL,
-    Mname 	 VARCHAR (15) NOT NULL,
-    Lname        VARCHAR (15) NOT NULL,
+    Fname        VARCHAR (30),
+    Mname 	 VARCHAR (15),
+    Lname        VARCHAR (30),
     Phone_Number CHAR (10) 
 );
 
@@ -58,18 +58,18 @@ CREATE TABLE Customer (
 CREATE TABLE Employee (
     Employee_id  INT            NOT NULL
                                 PRIMARY KEY,
-    Fname        VARCHAR (15),
+    Fname        VARCHAR (30),
     Mname 	 VARCHAR (15),
-    Lname        VARCHAR (15),
-    Salary       DECIMAL (7, 2),
-    Department   VARCHAR (15)   NOT NULL,
+    Lname        VARCHAR (30),
+    Salary       DECIMAL (9, 2),
+    Department   VARCHAR (30)   NOT NULL,
     Work_Hours   INTEGER,
     Phone_Number CHAR (10)
 );
 
 -- Table: Publisher
 CREATE TABLE Publisher (
-    Web_Domain     VARCHAR (30)  PRIMARY KEY
+    Web_Domain     VARCHAR (255)  PRIMARY KEY
                                  NOT NULL,
     Publisher_name VARCHAR (255),
     Address        VARCHAR (30) 
@@ -79,7 +79,7 @@ CREATE TABLE Publisher (
 CREATE TABLE Purchase (
     Order_id   		INT          NOT NULL
                         	    PRIMARY KEY,
-    Cust_Email 		VARCHAR (30) REFERENCES Customer (Email),
+    Cust_Email 		VARCHAR (60) REFERENCES Customer (Email),
     Purchase_Time 	DATETIME     NOT NULL
 );
 
@@ -99,7 +99,7 @@ CREATE TABLE Sells (
 
 -- Table: Writes
 CREATE TABLE Writes (
-    B_ISBN  VARCHAR (30) REFERENCES Book (ISBN) 
+    B_ISBN  VARCHAR (13) REFERENCES Book (ISBN) 
                          NOT NULL,
     Auth_ID INTEGER      REFERENCES AUTHOR (Author_id) 
                          NOT NULL,
