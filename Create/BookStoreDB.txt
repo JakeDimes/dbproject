@@ -32,9 +32,9 @@ CREATE TABLE Book (
 
 -- Table: Contains
 CREATE TABLE Contains (
-    B_ISBN   VARCHAR (13) REFERENCES Book (ISBN) 
+    B_ISBN   VARCHAR (13) REFERENCES Book (ISBN) ON DELETE NO ACTION
                           NOT NULL,
-    Ord_ID   INTEGER      REFERENCES Purchase (Order_id) 
+    Ord_ID   INTEGER      REFERENCES Purchase (Order_id) ON DELETE CASCADE,
                           NOT NULL,
     Quantity INTEGER      NOT NULL,
     PRIMARY KEY (
@@ -71,7 +71,7 @@ CREATE TABLE Employee (
 CREATE TABLE Publisher (
     Web_Domain     VARCHAR (255)  PRIMARY KEY
                                  NOT NULL,
-    Publisher_name VARCHAR (255),
+    Publisher_name VARCHAR (255) NOT NULL,
     Address        VARCHAR (30) 
 );
 
@@ -79,16 +79,16 @@ CREATE TABLE Publisher (
 CREATE TABLE Purchase (
     Order_id   		INT          NOT NULL
                         	    PRIMARY KEY,
-    Cust_Email 		VARCHAR (60) REFERENCES Customer (Email),
+    Cust_Email 		VARCHAR (60) REFERENCES Customer (Email) ON DELETE NO ACTION,
     Purchase_Time 	DATETIME     NOT NULL
 );
 
 
 -- Table: Sells
 CREATE TABLE Sells (
-    Emp_ID INTEGER REFERENCES Employee (Employee_id) 
+    Emp_ID INTEGER REFERENCES Employee (Employee_id) ON DELETE CASCADE
                    NOT NULL,
-    Ord_ID INTEGER REFERENCES Purchase (Order_id) 
+    Ord_ID INTEGER REFERENCES Purchase (Order_id) ON DELETE CASCADE
                    NOT NULL,
     PRIMARY KEY (
         Emp_ID,
@@ -99,9 +99,9 @@ CREATE TABLE Sells (
 
 -- Table: Writes
 CREATE TABLE Writes (
-    B_ISBN  VARCHAR (13) REFERENCES Book (ISBN) 
+    B_ISBN  VARCHAR (13) REFERENCES Book (ISBN) ON DELETE CASCADE
                          NOT NULL,
-    Auth_ID INTEGER      REFERENCES AUTHOR (Author_id) 
+    Auth_ID INTEGER      REFERENCES AUTHOR (Author_id) ON DELETE CASCADE
                          NOT NULL,
     PRIMARY KEY (
         B_ISBN,
