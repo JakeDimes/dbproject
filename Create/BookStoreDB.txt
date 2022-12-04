@@ -119,6 +119,14 @@ GROUP BY B.ISBN
 Group By ID
 Having MAX(SumQ);
 
+-- This view finds how many books each employee has sold.
+SELECT		E.Employee_id, E.Fname, E.Lname, SUM(Co.Quantity)
+FROM		Employee AS E, Sells as S, Purchase AS P, Contains as Co
+WHERE		S.Emp_ID = E.Employee_id
+		AND S.Ord_ID = P.Order_id
+		AND Co.Ord_ID = P.Order_id
+GROUP BY 	E.Employee_id;
+
 
 COMMIT TRANSACTION;
 PRAGMA foreign_keys = on;
