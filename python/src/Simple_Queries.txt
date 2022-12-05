@@ -11,7 +11,7 @@ WHERE		A.Author_ID = W.Auth_ID
 -- Query: This is [Query 2] from the manual.
 -- Simple Query 2
 -- Returns all the titles and their dates of purchase from the custom with the email Ashley.Clark@gmail.com.
-SELECT		B.Title, P.Date_time
+SELECT		B.Title, P.Purchase_Time
 FROM		CUSTOMER AS C, BOOK AS B, CONTAINS AS CO, PURCHASE AS P
 WHERE		C.Email = P.Cust_Email
 		AND CO.Ord_ID = P.Order_ID
