@@ -353,26 +353,26 @@ INSERT INTO Publisher (Publisher_name, Web_Domain, Address) VALUES ('Harper', 'H
 -- Insert purchase data into the purchases table
 
 
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('5/9/2022 5:38', 1, 'Benjamin.Ortega@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('4/12/2022 15:39', 2, 'Justin.Martinez@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('11/11/2021 6:37', 3, 'Daniel.Avila@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('7/17/2022 11:21', 4, 'Gary.Soto@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('10/25/2022 21:36', 5, 'Gary.Soto@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('3/6/2022 7:26', 6, 'Ashley.Clark@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('12/26/2021 12:47', 7, 'Cassandra.Jones@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('4/27/2022 1:23', 8, 'Andrew.Rogers@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('1/13/2022 17:11', 9, 'Shannon.Hamilton@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('10/6/2021 17:27', 10, 'Austin.Lee@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('9/3/2022 6:51', 11, 'Victoria.Lester@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('9/17/2022 13:48', 12, 'Shane.Jacobson@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('8/8/2022 0:06', 13, 'Austin.Lee@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('1/2/2022 1:14', 14, 'Ashley.Clark@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('9/26/2021 6:18', 15, 'Benjamin.Ortega@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('7/24/2022 23:22', 16, 'Andrew.Rogers@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('8/29/2022 6:28', 17, 'Victoria.Lester@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('5/12/2022 3:02', 18, 'Austin.Lee@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('10/13/2022 1:57', 19, 'Valerie.Kerr@gmail.com');
-INSERT INTO Purchase (Date_Time, Order_id, Cust_Email) VALUES ('8/2/2022 13:35', 20, 'Ellen.Barnes@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('5/9/2022 5:38', 1, 'Benjamin.Ortega@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('4/12/2022 15:39', 2, 'Justin.Martinez@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('11/11/2021 6:37', 3, 'Daniel.Avila@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('7/17/2022 11:21', 4, 'Gary.Soto@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('10/25/2022 21:36', 5, 'Gary.Soto@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('3/6/2022 7:26', 6, 'Ashley.Clark@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('12/26/2021 12:47', 7, 'Cassandra.Jones@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('4/27/2022 1:23', 8, 'Andrew.Rogers@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('1/13/2022 17:11', 9, 'Shannon.Hamilton@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('10/6/2021 17:27', 10, 'Austin.Lee@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('9/3/2022 6:51', 11, 'Victoria.Lester@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('9/17/2022 13:48', 12, 'Shane.Jacobson@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('8/8/2022 0:06', 13, 'Austin.Lee@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('1/2/2022 1:14', 14, 'Ashley.Clark@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('9/26/2021 6:18', 15, 'Benjamin.Ortega@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('7/24/2022 23:22', 16, 'Andrew.Rogers@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('8/29/2022 6:28', 17, 'Victoria.Lester@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('5/12/2022 3:02', 18, 'Austin.Lee@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('10/13/2022 1:57', 19, 'Valerie.Kerr@gmail.com');
+INSERT INTO Purchase (Purchase_Time, Order_id, Cust_Email) VALUES ('8/2/2022 13:35', 20, 'Ellen.Barnes@gmail.com');
 
 -- Insert sell relational data into the sells table
 

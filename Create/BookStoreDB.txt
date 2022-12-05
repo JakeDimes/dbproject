@@ -34,7 +34,7 @@ CREATE TABLE Book (
 CREATE TABLE Contains (
     B_ISBN   VARCHAR (13) REFERENCES Book (ISBN) ON DELETE NO ACTION
                           NOT NULL,
-    Ord_ID   INTEGER      REFERENCES Purchase (Order_id) ON DELETE CASCADE,
+    Ord_ID   INTEGER      REFERENCES Purchase (Order_id) ON DELETE CASCADE
                           NOT NULL,
     Quantity INTEGER      NOT NULL,
     PRIMARY KEY (
