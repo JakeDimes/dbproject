@@ -26,8 +26,13 @@ CREATE TABLE Book (
     Title           VARCHAR (255),
     Year            CHAR (4),
     Price           DECIMAL (6, 2),
-    Category        VARCHAR (30),
     Inventory_Count INTEGER        NOT NULL
+);
+-- Table: Category
+CREATE TABLE Category (
+	B_ISBN 	VARCHAR (13) 	NOT NULL
+				REFERENCES Book (ISBN) On DELETE CASCADE,
+	Category VARCHAR(60) 	NOT NULL
 );
 
 -- Table: Contains
