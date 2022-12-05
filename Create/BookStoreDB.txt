@@ -32,7 +32,11 @@ CREATE TABLE Book (
 CREATE TABLE Category (
 	B_ISBN 	VARCHAR (13) 	NOT NULL
 				REFERENCES Book (ISBN) On DELETE CASCADE,
-	Category VARCHAR(60) 	NOT NULL
+	Category VARCHAR(60) 	NOT NULL,
+	PRIMARY KEY (
+		B_ISBN,
+		Ord_ID
+	)
 );
 
 -- Table: Contains
@@ -77,7 +81,7 @@ CREATE TABLE Publisher (
     Web_Domain     VARCHAR (255)  PRIMARY KEY
                                  NOT NULL,
     Publisher_name VARCHAR (255) NOT NULL,
-    Address        VARCHAR (30) 
+    Contact_info   VARCHAR (60) 
 );
 
 -- Table: Purchase
