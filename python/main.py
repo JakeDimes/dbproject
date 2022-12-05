@@ -55,7 +55,7 @@ def load_queries():
 
     # get all files in the ./src/ directory
     for root, subdirs, files in os.walk(walk_dir):
-
+        files.sort(reverse=True)
         # for all files in the ./src/ directory
         for file in files:
 
@@ -115,13 +115,42 @@ def create_entries(queries_dict):
     Keyword Arugments
     queries_dict -- the dictionary of the queries 
     """
-    options = []
+    options = ['Go Back']
     for query_num in queries_dict:
         name = str.rstrip(queries_dict[query_num].name) 
 
         options.append(f'[{query_num}] {name}')
 
     return options
+
+def perform_query(database, query_to_perform):
+    """
+    This performs the query specified on the database
+
+    Keyword Arugments
+    database -- the database object
+    query_to_perform -- the SQL code for a query as a string
+    
+    """
+    # start a new query 
+    loc = database.cursor()
+    
+    # execute query
+    loc.execute(query_to_perform)
+    
+    # parse the header
+    header_orig = loc.description
+    header = []
+    for tupe in header_orig:
+        header.append(tupe[0])
+
+
+    # get the results from the query
+    results = loc.fetchall()
+
+    print(tabulate(results, headers=header, tablefmt='orgtbl'))
+
+    print("\n")
 
 def main( ):
     if len(sys.argv) != 2:
@@ -133,8 +162,15 @@ def main( ):
     queries_dict = load_queries()
 
     # create the menu
-    main_menu = TerminalMenu(['See Queries', 'Exit Program'])
-    query_menu = TerminalMenu(create_entries(queries_dict))
+    main_menu = TerminalMenu(['See Queries', 'See Views', 'Exit Program'],
+                             title='Options')
+    query_menu = TerminalMenu(create_entries(queries_dict),
+                              title='Queries')
+    view_options = ["Go Back", "Author's Most Popular Book",
+                                                "Employee Book Quantity Sales", 
+                                                "Number of Books in stock for Publishers"]
+    view_menu = TerminalMenu(view_options, title="Views")
+
     
     print('Use the UP/DOWN, or K/J to move up and down the menu. Use ENTER to confirm your selection')
     # prompt the user
@@ -144,56 +180,38 @@ def main( ):
 
         usr_in = main_menu.show()
 
-        if usr_in == 1:
+        if usr_in == 2:
             print("Exiting Program")
 
             run = False
 
+        elif usr_in == 1:
+
+            os.system('cls' if os.name == 'nt' else 'clear')
+            usr_in = view_menu.show()
+            if usr_in != 0:
+                print(view_options[usr_in])
+                print("\n")
+
+                # find the view
+                view_name = "Most_Popular"
+
+                if usr_in == 2:
+                    view_name = 'Employee_Sales'
+                elif usr_in == 3:
+                    view_name = 'Publisher_Stock'
+
+                perform_query(database, f"SELECT * FROM {view_name};") 
+
         else:
             os.system('cls' if os.name == 'nt' else 'clear')
             usr_in = query_menu.show()
-            
-            print(f"Performing Query {usr_in + 1}\n")
-            query_to_perform = queries_dict[usr_in + 1]
-            print(query_to_perform.description + '\n')
+            if usr_in != 0: 
+                print(f"Performing Query {usr_in}\n")
+                query_to_perform = queries_dict[usr_in]
+                print(query_to_perform.description + '\n')
 
-            # start a new query 
-            loc = database.cursor()
-            
-            # execute query
-            loc.execute(query_to_perform.code)
-            
-            # parse the header
-            header_orig = loc.description
-            header = []
-            for tupe in header_orig:
-                header.append(tupe[0])
-
-
-            # get the results from the query
-            results = loc.fetchall()
-
-            print(tabulate(results, headers=header, tablefmt='orgtbl'))
-
-            print("\n")
-
-
-
-
-
-
-
-
-
-    # for key in queries_dict:
-    #     print(key)
-    #     print(queries_dict[key].description)
-    #     print(queries_dict[key].code)
-
-    
-
-
-
+                perform_query(database, query_to_perform.code)
 
 if __name__ == '__main__':
     main()

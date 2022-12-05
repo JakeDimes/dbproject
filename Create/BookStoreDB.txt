@@ -112,9 +112,9 @@ CREATE TABLE Writes (
 -- This view finds a list of all authors and their most popular book
 
 CREATE VIEW Most_Popular AS  
-SELECT ID, BISBN, SumQ
+SELECT ID, Last_Name, BISBN, SumQ
 FROM (
-SELECT A.Author_ID AS ID, B.ISBN AS BISBN, SUM(Co.Quantity) AS SumQ
+SELECT A.Author_ID AS ID, A.Lname AS Last_Name, B.ISBN AS BISBN, SUM(Co.Quantity) AS SumQ
 FROM Author As A, Book AS B, Writes AS W, Contains AS CO
 WHERE A.Author_ID = W.Auth_ID 
 	AND B.ISBN = W.B_ISBN
@@ -125,6 +125,7 @@ Group By ID
 Having MAX(SumQ);
 
 -- This view finds how many books each employee has sold.
+CREATE VIEW Employee_Sales AS
 SELECT		E.Employee_id, E.Fname, E.Lname, SUM(Co.Quantity)
 FROM		Employee AS E, Sells as S, Purchase AS P, Contains as Co
 WHERE		S.Emp_ID = E.Employee_id
