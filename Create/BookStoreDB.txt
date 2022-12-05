@@ -35,7 +35,7 @@ CREATE TABLE Category (
 	Category VARCHAR(60) 	NOT NULL,
 	PRIMARY KEY (
 		B_ISBN,
-		Ord_ID
+		Category
 	)
 );
 
