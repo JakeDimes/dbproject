@@ -3,7 +3,7 @@
 -- Returns the first and last names of employees that made a sale on January 1st, 2022.
 SELECT 	E.Fname, E.Lname
 FROM 	EMPLOYEE AS E, PURCHASE AS P, SELLS AS S
-WHERE 	P.Date_Time BETWEEN '10/25/2022 00:00:00' AND '10/25/2022 24:00:00'
+WHERE 	P.Purchase_Time BETWEEN '10/25/2022 00:00:00' AND '10/25/2022 24:00:00'
 	AND P.Order_ID = S.Ord_ID
 	AND S.Emp_ID = E.Employee_ID;
 
