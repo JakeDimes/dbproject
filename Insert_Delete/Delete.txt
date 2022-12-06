@@ -1,0 +1,48 @@
+-- Authors
+-- First Example
+DELETE FROM AUTHOR WHERE Author_ID = 133;
+
+-- Second Example
+DELETE FROM AUTHOR WHERE Fname = NULL AND Lname = NULL;
+
+-- Third Example
+DELETE FROM AUTHOR WHERE Lname = 'Glock';
+
+
+-- Books
+-- First Example
+DELETE FROM BOOK WHERE ISBN = '2648957252866';
+
+-- Second Example
+DELETE FROM BOOK WHERE Pub_Domain = 'MotorSportReads.de';
+
+-- Third Example
+DELETE FROM BOOK WHERE Title = 'How I cheated at CSGO';
+
+-- Fourth Example
+DELETE FROM PURCHASE WHERE Order_ID = 1 OR Order_ID = 12;
+DELETE FROM BOOK WHERE ISBN = '1558605525';
+
+
+-- Publishers
+-- First Example
+DELETE FROM BOOK WHERE Pub_Domain = 'MortorSportsReads.de';
+DELETE FROM PUBLISHER WHERE Web_Domain = 'MotorSportsReads.de';
+
+-- Second Example
+DELETE FROM BOOK WHERE Pub_Domain = 'GamingBooks.net';
+DELETE FROM PUBLISHER WHERE Publisher_name = 'GamingBooks';
+
+-- Customer
+-- First Example
+DELETE FROM CUSTOMER WHERE Email = 'jimjanson@minecraft.net';
+
+-- Second Example
+DELETE FROM CUSTOMER WHERE Fname = NULL AND Lname = NULL;
+
+-- Third Example
+DELETE FROM CUSTOMER WHERE Email = 'lexfridman@lexfridmanpodcast.com';
+
+-- Fourth Example
+DELETE FROM CUSTOMER WHERE Email = 'Ashley.Clark@gmail.com';
+

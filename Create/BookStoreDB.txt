@@ -92,7 +92,7 @@ CREATE TABLE Publisher (
 CREATE TABLE Purchase (
     Order_ID   		INT          NOT NULL
                         	    PRIMARY KEY,
-    Cust_Email 		VARCHAR REFERENCES Customer (Email) ON DELETE NO ACTION,
+    Cust_Email 		VARCHAR REFERENCES Customer (Email) ON DELETE CASCADE,
     Purchase_Time 	DATETIME     NOT NULL
 );
 

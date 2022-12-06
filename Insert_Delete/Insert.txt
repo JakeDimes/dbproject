@@ -1,0 +1,37 @@
+-- Customer
+INSERT INTO CUSTOMER VALUES ('jimjanson@minecraft.net', 'Jim', 'Brian', 'Janson', '6172238415');
+
+INSERT INTO CUSTOMER VALUES ('mysterman@myster.com', NULL, NULL, NULL, NULL);
+
+INSERT INTO CUSTOMER VALUES ('lexfridman@lexfridmanpodcast.com', 'Alexander', NULL, 'Fridman', NULL);
+
+-- Publisher 
+INSERT INTO PUBLISHER VALUES ('MotorSportReads.de', 'Motor Sport Reads', '123 Racing St. Stuttgart, DE');
+
+INSERT INTO PUBLISHER VALUES ('GamingBooks.net', 'Gaming Books', NULL);
+
+
+
+-- Book
+INSERT INTO BOOK VALUES ('2648957252866', 'MotorSportReads.de', 'How to Be a World Champion', '2022', 9999.99, 33);
+
+INSERT INTO BOOK VALUES ('3342599746896', 'GamingBooks.net', 'How I cheated at CSGO', '2015', 49.99, 0);
+
+INSERT INTO BOOK VALUES ('4973432677933', 'MotorSportReads.de', 'How I Ruined the 2008 Formula 1 World Championship', '2009', 99.99, 1000);
+
+
+-- Author
+INSERT INTO AUTHOR VALUES(133, 'Max', 'Emilian', 'Verstappen', 'max@redbullracing.com');
+
+INSERT INTO AUTHOR VALUES(134, NULL, NULL, NULL, NULL);
+
+INSERT INTO AUTHOR VALUES (135, 'Timo', NULL, 'Glock', NULL);
+
+-- Writes
+INSERT INTO WRITES VALUES ('2648957252866', 133);
+
+INSERT INTO WRITES VALUES ('2648957252866', 134);
+
+INSERT INTO WRITES VALUES ('3342599746896', 134);
+
+INSERT INTO WRITES VALUES ('4973432677933', 135);
