@@ -1,10 +1,14 @@
 --
 -- File generated with SQLiteStudio v3.3.3 on Wed Oct 26 18:19:58 2022
--- File Last Modified: Sat Dec 3 15:07:31 2022
+-- File Last Modified: Sat Dec 5 15:07:31 2022
 -- Text encoding used: System
 --
+
+-- Turn off foreign keys temporarlily
 PRAGMA foreign_keys = off;
 BEGIN TRANSACTION;
+
+-- TABLES
 
 -- Table: Author
 CREATE TABLE Author (
@@ -21,18 +25,18 @@ CREATE TABLE Author (
 CREATE TABLE Book (
     ISBN            VARCHAR (13)   PRIMARY KEY
                                    NOT NULL,
-    Pub_Domain      VARCHAR (255)  NOT NULL
+    Pub_Domain      VARCHAR  NOT NULL
                                    REFERENCES Publisher (Web_Domain) ON DELETE NO ACTION,
     Title           VARCHAR (255),
     Year            CHAR (4),
-    Price           DECIMAL (6, 2),
-    Inventory_Count INTEGER        NOT NULL
+    Price           DECIMAL (6, 2) NOT NULL CHECK (Price >= 0),
+    Inventory_Count INTEGER        NOT NULL CHECK (Inventory_Count >= 0)
 );
 -- Table: Category
 CREATE TABLE Category (
 	B_ISBN 	VARCHAR (13) 	NOT NULL
 				REFERENCES Book (ISBN) On DELETE CASCADE,
-	Category VARCHAR(60) 	NOT NULL,
+	Category VARCHAR 	NOT NULL,
 	PRIMARY KEY (
 		B_ISBN,
 		Category
@@ -43,9 +47,9 @@ CREATE TABLE Category (
 CREATE TABLE Contains (
     B_ISBN   VARCHAR (13) REFERENCES Book (ISBN) ON DELETE NO ACTION
                           NOT NULL,
-    Ord_ID   INTEGER      REFERENCES Purchase (Order_id) ON DELETE CASCADE
+    Ord_ID   INTEGER      REFERENCES Purchase (Order_ID) ON DELETE CASCADE
                           NOT NULL,
-    Quantity INTEGER      NOT NULL,
+    Quantity INTEGER      NOT NULL CHECK (Quantity >= 0),
     PRIMARY KEY (
         B_ISBN,
         Ord_ID
@@ -55,7 +59,7 @@ CREATE TABLE Contains (
 
 -- Table: Customer
 CREATE TABLE Customer (
-    Email        VARCHAR (60) NOT NULL
+    Email        VARCHAR NOT NULL
                               PRIMARY KEY,
     Fname        VARCHAR (30),
     Mname 	 VARCHAR (15),
@@ -70,15 +74,15 @@ CREATE TABLE Employee (
     Fname        VARCHAR (30),
     Mname 	 VARCHAR (15),
     Lname        VARCHAR (30),
-    Salary       DECIMAL (9, 2),
+    Salary       DECIMAL (9, 2) NOT NULL CHECK(Salary >= 0),
     Department   VARCHAR (30)   NOT NULL,
-    Work_Hours   INTEGER,
+    Work_Hours   INTEGER NOT NULL CHECK(Work_Hours >= 0),
     Phone_Number CHAR (10)
 );
 
 -- Table: Publisher
 CREATE TABLE Publisher (
-    Web_Domain     VARCHAR (255)  PRIMARY KEY
+    Web_Domain     VARCHAR  PRIMARY KEY
                                  NOT NULL,
     Publisher_name VARCHAR (255) NOT NULL,
     Contact_info   VARCHAR (60) 
@@ -86,9 +90,9 @@ CREATE TABLE Publisher (
 
 -- Table: Purchase
 CREATE TABLE Purchase (
-    Order_id   		INT          NOT NULL
+    Order_ID   		INT          NOT NULL
                         	    PRIMARY KEY,
-    Cust_Email 		VARCHAR (60) REFERENCES Customer (Email) ON DELETE NO ACTION,
+    Cust_Email 		VARCHAR REFERENCES Customer (Email) ON DELETE NO ACTION,
     Purchase_Time 	DATETIME     NOT NULL
 );
 
@@ -97,7 +101,7 @@ CREATE TABLE Purchase (
 CREATE TABLE Sells (
     Emp_ID INTEGER REFERENCES Employee (Employee_id) ON DELETE CASCADE
                    NOT NULL,
-    Ord_ID INTEGER REFERENCES Purchase (Order_id) ON DELETE CASCADE
+    Ord_ID INTEGER REFERENCES Purchase (Order_ID) ON DELETE CASCADE
                    NOT NULL,
     PRIMARY KEY (
         Emp_ID,
@@ -118,39 +122,60 @@ CREATE TABLE Writes (
     )
 );
 
+-- VIEWS
+
 -- This view finds a list of all authors and their most popular book
 
-CREATE VIEW Most_Popular AS  
-SELECT ID, Last_Name, BISBN, SumQ
-FROM (
-SELECT A.Author_ID AS ID, A.Lname AS Last_Name, B.ISBN AS BISBN, SUM(Co.Quantity) AS SumQ
-FROM Author As A, Book AS B, Writes AS W, Contains AS CO
-WHERE A.Author_ID = W.Auth_ID 
-	AND B.ISBN = W.B_ISBN
-	AND Co.B_ISBN = B.ISBN
-GROUP BY B.ISBN
-)
-Group By ID
-Having MAX(SumQ);
+CREATE VIEW 	Most_Popular AS  
+SELECT 		ID, Last_Name, BISBN, SumQ
+FROM 		(
+		SELECT 		A.Author_ID AS ID, A.Lname AS Last_Name, B.ISBN AS BISBN, SUM(Co.Quantity) AS SumQ
+		FROM 		Author As A, Book AS B, Writes AS W, Contains AS CO
+		WHERE 		A.Author_ID = W.Auth_ID 
+				AND B.ISBN = W.B_ISBN
+				AND Co.B_ISBN = B.ISBN
+		GROUP BY 	B.ISBN
+		)
+Group By 	ID
+Having 		MAX(SumQ);
 
 -- This view finds how many books each employee has sold.
-CREATE VIEW Employee_Sales AS
-SELECT		E.Employee_id, E.Fname, E.Lname, SUM(Co.Quantity)
+CREATE VIEW 	Employee_Sales AS
+SELECT		E.Employee_id, E.Fname AS First_Name, E.Lname AS Last_Name, SUM(Co.Quantity) AS Number_Books_Sold
 FROM		Employee AS E, Sells as S, Purchase AS P, Contains as Co
 WHERE		S.Emp_ID = E.Employee_id
-		AND S.Ord_ID = P.Order_id
-		AND Co.Ord_ID = P.Order_id
+		AND S.Ord_ID = P.Order_ID
+		AND Co.Ord_ID = P.Order_ID
 GROUP BY 	E.Employee_id;
 
--- This view finds the number of books in stock per Publisher
+-- This view shows the tiles of books in all categories, and how many distinct Books (by ISBN) there are
 
-CREATE VIEW Publisher_Stock AS
-SELECT 		P.Web_Domain, P.Publisher_name,  SUM(B.Inventory_Count) AS Total_Books
-FROM 		Publisher AS P, Book AS B
-WHERE 		B.Pub_Domain = P.Web_Domain
-GROUP BY 	P.Web_Domain;
+CREATE VIEW Categories AS
+SELECT 		Ca.Category AS Category, group_concat(B.Title, '
+') AS Title, COUNT(B.ISBN) AS Number_Books
+FROM 		Book AS B, Category AS Ca
+WHERE 		B.ISBN = Ca.B_ISBN
+GROUP BY 	Ca.Category;
+
+
+-- INDEXES
+
+-- An index for the purchase table
+CREATE UNIQUE INDEX Idx_Purchase ON Purchase (Order_ID);
+
+-- An index for the author table
+CREATE UNIQUE INDEX Idx_Author ON Author (Author_ID);
+
+-- An index for the Book table
+CREATE UNIQUE INDEX Idx_Book ON Book (ISBN);
+
+-- An index for the customer table
+CREATE UNIQUE INDEX Idx_Customer ON Customer (Email);
 
 
 COMMIT TRANSACTION;
 PRAGMA foreign_keys = on;
+
+
+
 

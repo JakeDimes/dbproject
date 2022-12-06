@@ -1,0 +1,76 @@
+-- This is Trasnactions One from Section 1 on the user guide
+BEGIN TRANSACTION Purchase;
+
+INSERT OR ROLLBACK INTO Purchase (Order_id,Purchase_Time,Cust_Email)
+VALUES(21,datetime('now'),'Gary.Soto@gmail.com');
+
+-- Sell one book: add the book and quantity to the order
+INSERT OR ROLLBACK INTO Contains(B_ISBN,Ord_ID,Quantity)
+VALUES('609610570',21,6);
+
+-- Sell one book: remove the old quantity from stock
+UPDATE OR ROLLBACK Book
+SET Inventory_Count = Inventory_Count - 6
+WHERE ISBN = '609610570';
+
+INSERT OR ROLLBACK INTO Contains(B_ISBN,Ord_ID,Quantity)
+VALUES('972263608',21,4);
+
+-- Sell another book
+UPDATE OR ROLLBACK Book
+SET Inventory_Count = Inventory_Count - 4
+WHERE ISBN = '972263608';
+
+-- Employee number 2 makes the sale for order 21
+INSERT OR ROLLBACK INTO Sells(Emp_ID, Ord_ID)
+VALUES(2,21);
+
+COMMIT TRANSACTION;
+
+-- This is Trasnactions Two from Section 1 on the user guide
+
+BEGIN TRANSACTION Cancelled_Chip_Protocol;
+
+-- Remove contains entries for the book. These are set to no 
+-- action, so it must be done manually
+-- a record of the Purchase can be kept, but the book never existed
+DELETE FROM Contains WHERE B_ISBN = '782140661';
+
+-- Remove the Book chip Dawes Co-Authored
+-- This cascades Writes and Cateogry references
+-- Purchase entries will remain
+DELETE FROM Book WHERE ISBN = '782140661';
+
+-- Delete Chip Dawes 
+DELETE FROM Author WHERE Author_ID = 1;
+
+COMMIT TRANSACTION;
+
+-- This is Trasnactions Three from Section 1 on the user guide
+
+BEGIN TRANSACTION Discount_Categories;
+
+-- All Science books are 10 percent off
+UPDATE OR ROLLBACK Book
+SET Price = Price * 0.9
+WHERE ISBN IN ( SELECT B.ISBN 
+		FROM Book AS B, Category AS Ca
+		WHERE Ca.Category = 'Science'
+			AND Ca.B_ISBN = B.ISBN);  
+
+-- All Computer books are 30 percent off
+UPDATE OR ROLLBACK Book
+SET Price = Price * 0.7
+WHERE ISBN IN ( SELECT B.ISBN 
+		FROM Book AS B, Category AS Ca
+		WHERE Ca.Category = 'Computer'
+			AND Ca.B_ISBN = B.ISBN);  
+
+-- All Horror books are 40 percent off
+UPDATE OR ROLLBACK Book
+SET Price = Price * 0.6
+WHERE ISBN IN ( SELECT B.ISBN 
+		FROM Book AS B, Category AS Ca
+		WHERE Ca.Category = 'Horror'
+			AND Ca.B_ISBN = B.ISBN);  
+COMMIT TRANSACTION;

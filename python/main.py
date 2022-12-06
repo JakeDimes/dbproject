@@ -168,7 +168,7 @@ def main( ):
                               title='Queries')
     view_options = ["Go Back", "Author's Most Popular Book",
                                                 "Employee Book Quantity Sales", 
-                                                "Number of Books in stock for Publishers"]
+                                                "Books in Each Category"]
     view_menu = TerminalMenu(view_options, title="Views")
 
     
@@ -199,7 +199,7 @@ def main( ):
                 if usr_in == 2:
                     view_name = 'Employee_Sales'
                 elif usr_in == 3:
-                    view_name = 'Publisher_Stock'
+                    view_name = 'Categories'
 
                 perform_query(database, f"SELECT * FROM {view_name};") 
 
